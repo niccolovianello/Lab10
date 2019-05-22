@@ -1,6 +1,8 @@
 package it.polito.tdp.porto.model;
 
-public class Adiacenza {
+import org.jgrapht.graph.DefaultEdge;
+
+public class Adiacenza extends DefaultEdge{
 	
 	private Author a1;
 	private Author a2;

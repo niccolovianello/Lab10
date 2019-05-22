@@ -1,6 +1,7 @@
 package it.polito.tdp.porto;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.porto.model.Author;
@@ -39,10 +40,19 @@ public class PortoController {
     @FXML
     void handleCoautori(ActionEvent event) {
        	try {
+       		
+       		boxSecondo.setDisable(false);
+        	btnSequenza.setDisable(false);
+        	
        		txtResult.clear();
        		model.creaGrafo();
        		for(Author a : model.getNeighbors(boxPrimo.getValue()))
        			txtResult.appendText(a.getFirstname()+" "+a.getLastname()+" "+a.getId()+"\n");
+       		
+       		List<Author> rimanenti = this.model.getAllAuthors();
+       		rimanenti.removeAll(model.getNeighbors(boxPrimo.getValue()));
+       		
+       		boxSecondo.getItems().addAll(rimanenti);
     	}
     	catch(Exception e) {
     		e.printStackTrace();
@@ -68,5 +78,7 @@ public class PortoController {
     public void setModel(Model model) {
     	this.model = model;
     	boxPrimo.getItems().addAll(this.model.getAllAuthors());
+    	boxSecondo.setDisable(true);
+    	btnSequenza.setDisable(true);
     }
 }

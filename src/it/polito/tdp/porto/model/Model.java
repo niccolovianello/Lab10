@@ -8,55 +8,18 @@ import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.Graphs;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.event.ConnectedComponentTraversalEvent;
-import org.jgrapht.event.EdgeTraversalEvent;
-import org.jgrapht.event.TraversalListener;
-import org.jgrapht.event.VertexTraversalEvent;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
 import it.polito.tdp.porto.db.PortoDAO;
 
 public class Model {
 	
-	private Graph<Author, DefaultEdge> grafo;
+	private Graph<Author, Adiacenza> grafo;
 	private List<Author> autori;
 	private List<Paper> articoli;
 	private Map<Integer, Paper> paperIdMap;
 	private Map<Integer, Author> autoriIdMap;
 	private List<Adiacenza> adiacenze;
-	
-	private class EdgeTraversedGraphListener implements TraversalListener<Author, DefaultEdge>{
-
-		@Override
-		public void connectedComponentFinished(ConnectedComponentTraversalEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void connectedComponentStarted(ConnectedComponentTraversalEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void edgeTraversed(EdgeTraversalEvent<DefaultEdge> ev) {
-		}
-
-		@Override
-		public void vertexFinished(VertexTraversalEvent<Author> arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void vertexTraversed(VertexTraversalEvent<Author> arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
 
 	public List<Author> getAllAuthors() {
 		PortoDAO dao = new PortoDAO();
@@ -64,7 +27,7 @@ public class Model {
 	}
 	
 	public void creaGrafo(){
-		this.grafo = new SimpleGraph<Author, DefaultEdge>(DefaultEdge.class);
+		this.grafo = new SimpleGraph<Author, Adiacenza>(Adiacenza.class);
 		
 		PortoDAO dao = new PortoDAO();
 		autori = dao.getAllAuthors();
@@ -86,7 +49,7 @@ public class Model {
 			grafo.addEdge(a.getA1(), a.getA2());
 		}
 		
-//		System.out.println("Il grafo ha " + grafo.vertexSet().size() + " vertici e " + grafo.edgeSet().size() + " archi.\n");
+		System.out.println("Il grafo ha " + grafo.vertexSet().size() + " vertici e " + grafo.edgeSet().size() + " archi.\n");
 		
 	}
 
@@ -95,8 +58,8 @@ public class Model {
 	}
 	
 	public List<Author> camminoMinimo(Author source, Author target){
-		DijkstraShortestPath<Author, DefaultEdge> dijkstra = new DijkstraShortestPath<>(this.grafo);
-		GraphPath<Author, DefaultEdge> path = dijkstra.getPath(source, target);
+		DijkstraShortestPath<Author, Adiacenza> dijkstra = new DijkstraShortestPath<>(this.grafo);
+		GraphPath<Author, Adiacenza> path = dijkstra.getPath(source, target);
 		return path.getVertexList();
 	}
 

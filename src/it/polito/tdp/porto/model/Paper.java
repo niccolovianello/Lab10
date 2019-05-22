@@ -1,6 +1,6 @@
 package it.polito.tdp.porto.model;
 
-public class Paper {
+public class Paper{
 
 	private int eprintid;
 	private String title;
